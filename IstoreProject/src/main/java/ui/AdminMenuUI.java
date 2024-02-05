@@ -13,8 +13,8 @@ public class AdminMenuUI {
             System.out.println( "Pour créer une journée entrez 2" );
             System.out.println( "Pour quitter l'application entrez 0" );
             choix = scanner.nextInt();
-            if(choix == 1) new CreateSeasonUI().show();
-            if(choix == 2) new CreateDayUI().show();
+            if(choix == 1) ;
+            if(choix == 2) ;
         }
     }
 }
