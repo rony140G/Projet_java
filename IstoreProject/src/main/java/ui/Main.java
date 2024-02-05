@@ -7,8 +7,9 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println( "*********************iStore*******************" );
+        System.out.println( "*********************iStore*******************test" );
         new LoginUI().show();
+
     }
 
 
