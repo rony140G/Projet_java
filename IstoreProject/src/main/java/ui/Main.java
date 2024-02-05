@@ -10,11 +10,11 @@ public class Main {
         System.out.println( "*********************iStore*******************" );
         int choix = -1;
         while (choix != 0){
-            System.out.println( "Pour créer un compte 1" );
-            System.out.println( "Pour se connecter 2" );
+            System.out.println( "To log in, press 1" );
+            System.out.println( "To create an account, press 2" );
             choix = scanner.nextInt();
-            if(choix == 1) new CreateAccount().show();
-            if(choix == 2) new LoginUI().show();
+            if(choix == 1) new LoginUI().show();
+            if(choix == 2) new CreateAccount().show();
         }
 
     }
