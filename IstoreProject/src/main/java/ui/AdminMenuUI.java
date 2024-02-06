@@ -2,6 +2,9 @@ package ui;
 
 import java.util.Scanner;
 
+import static ui.Main.clearConsole;
+
+
 public class AdminMenuUI {
 
     public void show() {
@@ -13,9 +16,12 @@ public class AdminMenuUI {
             System.out.println( "To update or delete an employee's account, press 2" );
             System.out.println( "To create a new store press 3" );
             System.out.println( "To create and delete a new item in the inventory press 4" );
+            System.out.println( "Log out press 9");
             choix = scanner.nextInt();
-            if(choix == 1) ;
-            if(choix == 2) ;
+            if(choix == 1) new WhiteListUI().show();
+            if (choix == 9)
+                clearConsole();
+                return;
         }
     }
 }
