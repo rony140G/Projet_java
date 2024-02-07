@@ -32,7 +32,7 @@ public class Main {
                     new CreateAccount().show();
                     break;
                 case 3:
-                    manageUsers(); // Appel de la méthode pour gérer les utilisateurs
+                    new UserUI().ShowUserManagementMenu(); // Appel de la méthode pour gérer les utilisateurs
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -43,31 +43,5 @@ public class Main {
         scanner.close();
     }
 
-    // Méthode pour gérer les utilisateurs
-    private static void manageUsers() {
-        // Instanciation de la classe concrète UserUIImpl
-        UserUI userUI = new UserUIImpl();
 
-        // Appel de la méthode pour afficher le menu de gestion des utilisateurs
-        userUI.showUserManagementMenu();
-    }
-
-    // Interface utilisateur pour la gestion des utilisateurs
-    public interface UserUI {
-        void showUserManagementMenu();
-    }
-
-    // Implémentation concrète de l'interface utilisateur pour la gestion des utilisateurs
-    public static class UserUIImpl implements UserUI {
-        @Override
-        public void showUserManagementMenu() {
-            // Logique pour afficher le menu de gestion des utilisateurs
-            System.out.println("Menu de gestion des utilisateurs:");
-            System.out.println("1. Créer un utilisateur");
-            System.out.println("2. Lire un utilisateur");
-            System.out.println("3. Mettre à jour un utilisateur");
-            System.out.println("4. Supprimer un utilisateur");
-            // Ajoutez d'autres options de menu selon les besoins
-        }
-    }
 }
