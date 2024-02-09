@@ -36,7 +36,7 @@ public class CreateAccount {
 
         System.out.print("Enter Password: ");
         String password = scanner.next();
-
+      //  PasswordHack = PasswordHashing(password);
         System.out.print("Enter password again: ");
         String password2 = scanner.next();
 
