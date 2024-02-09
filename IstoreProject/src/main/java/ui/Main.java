@@ -1,8 +1,11 @@
 package ui;
 
+import infrastructure.DataBaseCo;
+
 import java.util.Scanner;
 
 public class Main {
+
     public static void clearConsole() {
         for (int i = 0; i < 50; i++) {
             System.out.println();
@@ -11,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        DataBaseCo.DataCo();
         int choix = -1;
         while (choix != 0) {
             System.out.println("*********************iStore*******************");
@@ -32,7 +35,7 @@ public class Main {
                     new CreateAccount().show();
                     break;
                 case 3:
-                    new UserUI().ShowUserManagementMenu(); // Appel de la méthode pour gérer les utilisateurs
+                    new UserUI().ShowUserManagementMenu(); 
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -42,6 +45,7 @@ public class Main {
 
         scanner.close();
     }
+
 
 
 }
