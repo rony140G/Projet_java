@@ -10,15 +10,4 @@ public class PasswordHashing {
         return BCrypt.checkpw(password, hashedPassword);
     }
 
-    public static void main(String[] args) {
-        String password = "password123";
-
-        // Hacher le mot de passe
-        String hashedPassword = hashPassword(password);
-        System.out.println("Mot de passe haché : " + hashedPassword);
-
-        // Vérifier le mot de passe
-        boolean isValid = verifyPassword(password, hashedPassword);
-        System.out.println("Mot de passe valide : " + isValid);
-    }
 }

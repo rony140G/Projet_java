@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static infrastructure.PasswordHashing.hashPassword;
+
 public class CreateAccount {
     private final Scanner scanner;
     private final String url = "jdbc:mysql://localhost/Istore?";
@@ -39,13 +41,13 @@ public class CreateAccount {
       //  PasswordHack = PasswordHashing(password);
         System.out.print("Enter password again: ");
         String password2 = scanner.next();
-
+        String HashPwd = hashPassword(password);
         System.out.print("Enter Pseudo ");
         String pseudo = scanner.next();
 
 
         if (password.equals(password2)) {
-            if (insertUser(email, password, pseudo)) {
+            if (insertUser(email, HashPwd, pseudo)) {
                 System.out.println("Successfully created account");
             } else {
                 System.out.println("Failed to create account. Please try again later.");
