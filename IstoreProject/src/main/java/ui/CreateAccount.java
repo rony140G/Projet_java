@@ -1,29 +1,35 @@
 package ui;
 
-
 import java.util.Scanner;
 import usecase.EmailValidator;
-import static infrastructure.PasswordHashing.hashPassword;
-import infrastructure.*;
+import infrastructure.WhiteListDao;
+import infrastructure.PasswordHashing;
+import infrastructure.UserDAO;
+
 public class CreateAccount {
     private final Scanner scanner;
+
     public CreateAccount() {
         this.scanner = new Scanner(System.in);
     }
+
     public void show() {
         System.out.println("***********Create an account*********");
 
         String email = "";
         boolean isValidEmail = false;
+        boolean whitelisted = false;
 
-        while (!isValidEmail) {
-
+        while (!isValidEmail || !whitelisted) {
             System.out.print("Email: ");
             email = scanner.next();
             isValidEmail = EmailValidator.isValidEmail(email);
+            whitelisted = new WhiteListDao().isWhitelisted(email);
 
             if (!isValidEmail) {
                 System.out.println("Invalid email format. Please enter a valid email address.");
+            } else if (!whitelisted) {
+                System.out.println("Email not whitelisted. You can't create an account.");
             }
         }
 
@@ -31,12 +37,10 @@ public class CreateAccount {
         String password = scanner.next();
         System.out.print("Enter password again: ");
         String password2 = scanner.next();
-        String HashPwd = hashPassword(password);
-      // System.out.print("Enter Pseudo ");//  String pseudo = scanner.next();
-
+        String hashedPassword = PasswordHashing.hashPassword(password);
 
         if (password.equals(password2)) {
-            if (UserDAO.insertUser(email, HashPwd)) {
+            if (UserDAO.insertUser(email, hashedPassword)) {
                 System.out.println("Successfully created account");
             } else {
                 System.out.println("Failed to create account. Please try again later.");
@@ -45,5 +49,4 @@ public class CreateAccount {
             System.out.println("Passwords do not match. Please try again.");
         }
     }
-
 }

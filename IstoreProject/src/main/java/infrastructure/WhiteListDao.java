@@ -2,6 +2,20 @@ package infrastructure;
 import java.sql.*;
 
 public class WhiteListDao {
+    public static boolean isWhitelisted(String email) {
+        String sql = "SELECT * FROM listeblanche WHERE Email = ?";
+        try (Connection connection = DatabaseCo.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            // Si une ligne est retournée, cela signifie que l'e-mail est sur la liste blanche
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println("Error checking whitelist: " + e.getMessage());
+            return false;
+        }
+    }
+
     public void viewWhiteList() {
         String sql = "SELECT * FROM listeblanche";
         try (Connection connection = DatabaseCo.getConnection();
