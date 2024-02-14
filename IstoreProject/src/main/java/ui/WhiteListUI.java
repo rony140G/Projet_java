@@ -1,15 +1,15 @@
 package ui;
 
-import infrastructure.DatabaseCo;
+import infrastructure.*;
 import usecase.EmailValidator;
-import java.sql.*;
 import java.util.Scanner;
-
 public class WhiteListUI {
     private final Scanner scanner;
+    private final WhiteListDao whiteListDao;
 
     public WhiteListUI() {
         this.scanner = new Scanner(System.in);
+        this.whiteListDao = new WhiteListDao();
     }
 
     public void show() {
@@ -22,20 +22,20 @@ public class WhiteListUI {
             System.out.println("Delete e-mails from whitelist, press 2");
             System.out.println("View whitelist, press 3");
 
-            int choix = scanner.nextInt();
+            int choice = scanner.nextInt();
 
-            switch (choix) {
+            switch (choice) {
                 case 0:
-                    running = false; // Quitte la boucle et revient au menu principal
+                    running = false;
                     break;
                 case 1:
-                    InsertMailToWhiteList();
+                    insertMailToWhiteList();
                     break;
                 case 2:
-                    DeleteMailFromWhiteList();
+                    deleteMailFromWhiteList();
                     break;
                 case 3:
-                    ViewWitelist();
+                    whiteListDao.viewWhiteList();
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -44,76 +44,28 @@ public class WhiteListUI {
         }
     }
 
-    private void ViewWitelist() {
-        String sql = "SELECT * FROM listeblanche";
-        try (Connection connexion = DatabaseCo.getConnection();
-             PreparedStatement statement = connexion.prepareStatement(sql)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                System.out.println("Email: " + resultSet.getString("Email"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error retrieving whitelist: " + e.getMessage());
+
+    private void deleteMailFromWhiteList() {
+        System.out.print("Enter the email to delete: ");
+        String email = scanner.next();
+        boolean isValidEmail = EmailValidator.isValidEmail(email);
+
+        if (!isValidEmail) {
+            System.out.println("Invalid email format. Please enter a valid email address.");
+        } else {
+            whiteListDao.deleteFromWhiteList(email);
         }
     }
 
-    private void DeleteMailFromWhiteList() {
-        String email = "";
-        boolean isValidEmail = false;
+    private void insertMailToWhiteList() {
+        System.out.print("Enter the email to add: ");
+        String email = scanner.next();
+        boolean isValidEmail = EmailValidator.isValidEmail(email);
 
-        while (!isValidEmail) {
-            System.out.print("Enter the email to delete: ");
-            email = scanner.next();
-            isValidEmail = EmailValidator.isValidEmail(email);
-
-            if (!isValidEmail) {
-                System.out.println("Invalid email format. Please enter a valid email address.");
-            }
-        }
-
-        String sql = "DELETE FROM listeblanche WHERE Email = ?";
-        try (Connection connexion = DatabaseCo.getConnection();
-             PreparedStatement statement = connexion.prepareStatement(sql)) {
-            statement.setString(1, email);
-
-            int rowsDeleted = statement.executeUpdate();
-            if (rowsDeleted > 0) {
-                System.out.println("Email deleted from whitelist successfully.");
-            } else {
-                System.out.println("Failed to delete email from whitelist.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error deleting email: " + e.getMessage());
-        }
-    }
-
-    private void InsertMailToWhiteList() {
-        String email = "";
-        boolean isValidEmail = false;
-
-        while (!isValidEmail) {
-            System.out.print("Enter the email to add: ");
-            email = scanner.next();
-            isValidEmail = EmailValidator.isValidEmail(email);
-
-            if (!isValidEmail) {
-                System.out.println("Invalid email format. Please enter a valid email address.");
-            }
-        }
-
-        String sql = "INSERT INTO listeblanche (Email) VALUES (?)";
-        try (Connection connexion = DatabaseCo.getConnection();
-             PreparedStatement statement = connexion.prepareStatement(sql)) {
-            statement.setString(1, email);
-
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("Email inserted into whitelist successfully.");
-            } else {
-                System.out.println("Failed to insert email into whitelist.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error inserting email: " + e.getMessage());
+        if (!isValidEmail) {
+            System.out.println("Invalid email format. Please enter a valid email address.");
+        } else {
+            whiteListDao.insertIntoWhiteList(email);
         }
     }
 }

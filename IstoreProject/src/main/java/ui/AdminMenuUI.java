@@ -16,7 +16,6 @@ public class AdminMenuUI {
             System.out.println( "To manage User, press 2" );
             System.out.println( "To create a new store press 3" );
             System.out.println( "To create and delete a new item in the inventory press 4" );
-            System.out.println("To manage users, press 5");
             System.out.println( "Log out press 9");
             choix = scanner.nextInt();
             switch (choix) {
@@ -24,7 +23,7 @@ public class AdminMenuUI {
                     new WhiteListUI().show();
                     break;
                 case 2:
-
+                    new ManageUserUi().show();
                     break;
                 case 9:
                     clearConsole();

@@ -1,13 +1,10 @@
 package ui;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
 import java.util.Scanner;
-import infrastructure.DatabaseCo;
 import usecase.EmailValidator;
 import static infrastructure.PasswordHashing.hashPassword;
-
+import infrastructure.*;
 public class CreateAccount {
     private final Scanner scanner;
     public CreateAccount() {
@@ -39,7 +36,7 @@ public class CreateAccount {
 
 
         if (password.equals(password2)) {
-            if (insertUser(email, HashPwd)) {
+            if (UserDAO.insertUser(email, HashPwd)) {
                 System.out.println("Successfully created account");
             } else {
                 System.out.println("Failed to create account. Please try again later.");
@@ -49,22 +46,4 @@ public class CreateAccount {
         }
     }
 
-
-
-    private boolean insertUser(String email, String password) {
-        String sql = "INSERT INTO User (Email, Password) VALUES (?, ?)";
-
-        try (Connection connexion = DatabaseCo.getConnection();
-             PreparedStatement statement = connexion.prepareStatement(sql)) {
-
-            statement.setString(1, email);
-            statement.setString(2, password);
-
-            int rowsInserted = statement.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            System.out.println("Error inserting user: " + e.getMessage());
-            return false;
-        }
-    }
 }

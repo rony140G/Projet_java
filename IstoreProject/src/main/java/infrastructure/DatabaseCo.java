@@ -1,8 +1,6 @@
 package infrastructure;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseCo {
     private static final String url = "jdbc:mysql://localhost/Istore?";

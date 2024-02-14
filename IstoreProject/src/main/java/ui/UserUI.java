@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class UserUI {
     Scanner scanner = new Scanner(System.in);
     int choix = -1;
-    public void ShowUserManagementMenu() {
+    public void ShowUser() {
         System.out.println("Menu de gestion des utilisateurs:");
         System.out.println("1. Créer un utilisateur");
         System.out.println("2. Lire un utilisateur");

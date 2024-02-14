@@ -9,6 +9,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
+
+    public static boolean insertUser(String email, String password) {
+        String sql = "INSERT INTO User (Email, Password) VALUES (?, ?)";
+
+        try (Connection connexion = DatabaseCo.getConnection();
+             PreparedStatement statement = connexion.prepareStatement(sql)) {
+
+            statement.setString(1, email);
+            statement.setString(2, password);
+
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            System.out.println("Error inserting user: " + e.getMessage());
+            return false;
+        }
+    }
     public static boolean login(String email, String password) {
         String sql = "SELECT password FROM User WHERE Email = ?";
         String hashedPassword;
