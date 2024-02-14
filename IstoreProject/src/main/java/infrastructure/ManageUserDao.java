@@ -53,14 +53,16 @@ public class ManageUserDao {
         }
     }
 
-    public void UpdateUser(String oldEmail, String newEmail, String newRole, String newPseudo) {
-        String sql = "UPDATE User SET Email = ?, role = ?, pseudo = ? WHERE Email = ?";
+    public void UpdateUser(String oldEmail,String newPassword, String newEmail, String newRole, String newPseudo) {
+        String sql = "UPDATE User SET Email = ?,Password =?, role = ?, pseudo = ? WHERE Email = ?";
         try (Connection connection = DatabaseCo.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, newEmail);
-            statement.setString(2, newRole);
-            statement.setString(3, newPseudo);
-            statement.setString(4, oldEmail);
+            statement.setString(2, newPassword);
+            statement.setString(3, newRole);
+            statement.setString(4, newPseudo);
+            statement.setString(5, oldEmail);
+
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
