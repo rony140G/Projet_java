@@ -42,11 +42,7 @@ public class ManageUserDao {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return true;
-            } else {
-                return false;
-            }
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println("Error verifying user existence: " + e.getMessage());
             return false;

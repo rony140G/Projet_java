@@ -70,8 +70,9 @@ public class ManageUserUi {
             System.out.println("Enter New Mail: ");
             String newEmail = scanner.next();
 
-            System.out.println("Enter New Mail: ");
-            String newPassword = scanner.next();
+            System.out.println("Enter New Password: ");
+            String Password = scanner.next();
+            String newPassword = PasswordHashing.hashPassword(Password);
 
             System.out.println("Enter New Role: ");
             String newRole = scanner.next();
@@ -79,10 +80,8 @@ public class ManageUserUi {
             System.out.println("Enter New Pseudo: ");
             String newPseudo = scanner.next();
 
-            ManageUserDao.UpdateUser(oldEmail,newEmail, newPassword,newRole,newPseudo);
+            ManageUserDao.UpdateUser(oldEmail,newPassword, newEmail, newRole,newPseudo);
         }
-
-
 
     }
     public static void main(String[] args) {

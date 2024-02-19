@@ -20,16 +20,17 @@ public class CreateAccount {
         boolean isValidEmail = false;
         boolean whitelisted = false;
 
-        while (!isValidEmail || !whitelisted) {
+        while (!(isValidEmail && whitelisted)) {
             System.out.print("Email: ");
             email = scanner.next();
             isValidEmail = EmailValidator.isValidEmail(email);
-            whitelisted = new WhiteListDao().isWhitelisted(email);
+            whitelisted = WhiteListDao.isWhitelisted(email);
 
             if (!isValidEmail) {
                 System.out.println("Invalid email format. Please enter a valid email address.");
             } else if (!whitelisted) {
                 System.out.println("Email not whitelisted. You can't create an account.");
+                return;
             }
         }
 
