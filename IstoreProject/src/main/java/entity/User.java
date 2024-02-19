@@ -37,7 +37,5 @@ public class User {
     public String getRole() {
         return null;
     }
-
-
     // Getters and setters
 }
