@@ -1,11 +1,11 @@
 package ui;
 
 import infrastructure.ManageStoreDao;
-import infrastructure.ManageUserDao;
+
 
 import java.util.*;
 
-import static infrastructure.ManageStoreDao.insertStore;
+import static infrastructure.ManageStoreDao.*;
 
 public class ManageStoreUi {
     Scanner scanner = new Scanner(System.in);
@@ -15,7 +15,7 @@ public class ManageStoreUi {
             System.out.println("********************* Manage store *******************");
             System.out.println("Back to admin menu, press 0");
             System.out.println("to Create new store, press 1 ");
-            System.out.println("to VIEW store, press 2");
+            System.out.println("to VIEW Inventory store, press 2");
             System.out.println("to delete store , press 3");
             int choice = scanner.nextInt();
 
@@ -31,6 +31,9 @@ public class ManageStoreUi {
                 case 2:
                     new ManageStoreDao().ViewStore();
                     break;
+                case 3:
+                    DeleteStoreUi();
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
                     break;
@@ -38,9 +41,19 @@ public class ManageStoreUi {
         }
     }
 
+    private void DeleteStoreUi() {
+        System.out.println("Enter the name of the store ");
+        String storeName = scanner.nextLine();
+        if (deleteStore(storeName)){
+            System.out.println("Store deleted !!");
+        }else {
+            System.out.println("store don't deleted !");
+        }
+    }
+
 
     public void CreateStoreUi(){
-        System.out.println("Enter the name of the store ");
+        System.out.println("Enter the name of the store to delete ");
         String storeName = scanner.nextLine();
 
         if (insertStore(storeName)){

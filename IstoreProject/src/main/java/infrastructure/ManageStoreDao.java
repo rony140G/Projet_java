@@ -21,6 +21,23 @@ public class ManageStoreDao {
             return false;
         }
     }
+
+    public static boolean deleteStore(String name) {
+        String sql = "DELETE FROM store WHERE store_Name = ?";
+
+        try (Connection connection = DatabaseCo.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, name);
+
+            int rowsDeleted = statement.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            System.out.println("Error deleting store: " + e.getMessage());
+            return false;
+        }
+    }
+
     public void ViewStore() {
         String sql = "SELECT * FROM store";
         try (Connection connection = DatabaseCo.getConnection();
