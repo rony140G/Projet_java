@@ -1,4 +1,4 @@
-package ui;
+package infrastructure;
 
 import infrastructure.DatabaseCo;
 
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class lireUtilisateur {
-    void lireUtilisateur() {
+    public void lireUtilisateur() {
         try (Connection connection = DatabaseCo.getConnection())  {
             String query = "SELECT Email, Pseudo, Password, Role FROM user";
             try (PreparedStatement statement = connection.prepareStatement(query)) {

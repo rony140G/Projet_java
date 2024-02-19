@@ -1,14 +1,9 @@
 package ui;
 
-import entity.User;
-import infrastructure.DatabaseCo;
 import infrastructure.ManageUserDao;
 import infrastructure.PasswordHashing;
+import infrastructure.lireUtilisateur;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UserUI {
