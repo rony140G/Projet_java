@@ -13,7 +13,7 @@ public class ManageUserDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 System.out.println( "Id : " + resultSet.getString("Id") +" ;Email: " + resultSet.getString("Email")+ " ;Role : " + resultSet.getString("role")
-                + " ;pseudo : " + resultSet.getString("pseudo"));
+                        + " ;pseudo : " + resultSet.getString("pseudo"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving whitelist: " + e.getMessage());
@@ -68,6 +68,8 @@ public class ManageUserDao {
             }
         } catch (SQLException e) {
             System.out.println("Error updating user information: " + e.getMessage());
+
         }
     }
 }
+

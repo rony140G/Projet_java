@@ -22,7 +22,10 @@ public class LoginUI {
         if (UserDAO.loginAdmin(email, password)) {
             new AdminMenuUI().show();
         } else if (UserDAO.login(email, password)){
-            new UserUI().ShowUser();
+
+
+            new UserUI().ShowUserMenu();
+
         } else {
             System.out.println("Invalid email or password. Please try again.");
         }
