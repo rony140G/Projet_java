@@ -3,6 +3,7 @@ package ui;
 import entity.User;
 import infrastructure.DatabaseCo;
 import infrastructure.ManageUserDao;
+import infrastructure.PasswordHashing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +18,9 @@ public class UserUI {
     public void ShowUserMenu() {
         while (true) { // Boucle pour rester dans le menu jusqu'à ce que l'utilisateur choisisse de sortir
             System.out.println("Menu de gestion des utilisateurs:");
-            System.out.println("1. Créer un utilisateur");
-            System.out.println("2. Lire un utilisateur");
-            System.out.println("3. Mettre à jour un utilisateur");
-            System.out.println("4. Supprimer un utilisateur");
+            System.out.println("1. Lire un utilisateur");
+            System.out.println("2. Mettre à jour un utilisateur");
+            System.out.println("3. Supprimer un utilisateur");
             System.out.println("0. Quitter");
 
             choix = scanner.nextInt();
@@ -28,10 +28,13 @@ public class UserUI {
                 case 0:
                     break;
                 case 1:
+                    new lireUtilisateur().lireUtilisateur();
                     break;
                 case 2:
+                    mettreAJourUtilisateur();
                     break;
                 case 3:
+                    supprimerUtilisateur();
                     break;
                 default:
                     break;
@@ -40,6 +43,34 @@ public class UserUI {
             // Ajoutez d'autres options de menu selon les besoins
         }
 
+    }
+    private void mettreAJourUtilisateur() {
+        // Demandez à l'utilisateur les informations de mise à jour
+        System.out.println("Entrez votre email actuel :");
+        String oldEmail = scanner.next();
+        System.out.println("Entrez votre nouveau mot de passe :");
+        String Password = scanner.next();
+        String newPassword = PasswordHashing.hashPassword(Password);
+        System.out.println("Entrez votre nouvel email :");
+        String newEmail = scanner.next();
+        System.out.println("Entrez votre nouveau rôle :");
+        String newRole = scanner.next();
+        System.out.println("Entrez votre nouveau pseudo :");
+        String newPseudo = scanner.next();
+
+        // Appeler la méthode UpdateUser pour mettre à jour l'utilisateur
+        ManageUserDao manageUserDao = new ManageUserDao();
+        manageUserDao.UpdateUser(oldEmail, newPassword, newEmail, newRole, newPseudo);
+    }
+
+    private void supprimerUtilisateur() {
+        // Demandez à l'utilisateur son email pour confirmer la suppression du compte
+        System.out.println("Entrez votre email pour confirmer la suppression de votre compte :");
+        String email = scanner.next();
+
+        // Appeler la méthode DeleteUser pour supprimer l'utilisateur
+        ManageUserDao manageUserDao = new ManageUserDao();
+        manageUserDao.DeleteUser(email);
     }
 }
 
