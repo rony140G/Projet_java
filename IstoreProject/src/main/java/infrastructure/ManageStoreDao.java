@@ -1,23 +1,44 @@
 package infrastructure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ManageStoreDao {
-    public static boolean insertStore(String Name) {
-        String sql = "INSERT INTO store (store_Name) VALUES (?)";
+    public static boolean insertStore(String name) {
+        String insertInventorySQL = "INSERT INTO inventory (inventory_Name, store_ID) VALUES (?, ?)";
+        String insertStoreSQL = "INSERT INTO store (store_Name) VALUES (?)";
 
-        try (Connection connexion = DatabaseCo.getConnection();
-             PreparedStatement statement = connexion.prepareStatement(sql)) {
+        try (Connection connection = DatabaseCo.getConnection();
+             PreparedStatement insertInventoryStatement = connection.prepareStatement(insertInventorySQL, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement insertStoreStatement = connection.prepareStatement(insertStoreSQL)) {
 
-            statement.setString(1, Name);
+            // Insérer un nouvel enregistrement dans la table des inventaires
+            insertInventoryStatement.setString(1, name + "_Inventory");
+            insertInventoryStatement.setInt(2, 0); // Placeholder for store_ID, to be updated later
+            int rowsInserted = insertInventoryStatement.executeUpdate();
 
-            int rowsInserted = statement.executeUpdate();
+            // Récupérer l'inventoryID généré pour le nouvel inventaire
+            ResultSet generatedKeys = insertInventoryStatement.getGeneratedKeys();
+            int inventoryID = -1;
+            if (generatedKeys.next()) {
+                inventoryID = generatedKeys.getInt(1);
+            }
+
+            // Insérer un nouvel enregistrement dans la table des magasins
+            insertStoreStatement.setString(1, name);
+            rowsInserted += insertStoreStatement.executeUpdate();
+
+            // Mettre à jour store_ID dans la table des inventaires
+            if (inventoryID != -1) {
+                String updateInventorySQL = "UPDATE inventory SET store_ID = ? WHERE Inventory_ID = ?";
+                PreparedStatement updateInventoryStatement = connection.prepareStatement(updateInventorySQL);
+                updateInventoryStatement.setInt(1, inventoryID);
+                updateInventoryStatement.setInt(2, inventoryID);
+                rowsInserted += updateInventoryStatement.executeUpdate();
+            }
+
             return rowsInserted > 0;
         } catch (SQLException e) {
-            System.out.println("Error inserting user: " + e.getMessage());
+            System.out.println("Error inserting store: " + e.getMessage());
             return false;
         }
     }

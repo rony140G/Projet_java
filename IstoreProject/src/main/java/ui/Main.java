@@ -1,5 +1,4 @@
 package ui;
-import infrastructure.DatabaseCo;
 import java.util.Scanner;
 public class Main {
     public static void clearConsole() {

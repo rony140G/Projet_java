@@ -15,8 +15,9 @@ public class ManageStoreUi {
             System.out.println("********************* Manage store *******************");
             System.out.println("Back to admin menu, press 0");
             System.out.println("to Create new store, press 1 ");
-            System.out.println("to VIEW Inventory store, press 2");
+            System.out.println("to view store, press 2");
             System.out.println("to delete store , press 3");
+            System.out.println("to manage store inventory store , press 4");
             int choice = scanner.nextInt();
 
             scanner.nextLine();

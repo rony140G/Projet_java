@@ -68,4 +68,8 @@ public class WhiteListUI {
             whiteListDao.insertIntoWhiteList(email);
         }
     }
+    public static void main(String[] args) {
+        WhiteListUI whiteListUI = new WhiteListUI(); // Create an instance of UserUI
+        whiteListUI.show(); // Call the ShowUserMenu method on the instance
+    }
 }

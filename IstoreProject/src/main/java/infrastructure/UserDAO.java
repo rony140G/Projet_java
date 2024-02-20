@@ -1,6 +1,5 @@
 package infrastructure;
 
-import infrastructure.DatabaseCo;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;

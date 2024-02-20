@@ -1,27 +1,23 @@
 package infrastructure;
 
-import infrastructure.DatabaseCo;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class lireUtilisateur {
+public class LireUtilisateur {
     public void lireUtilisateur() {
         try (Connection connection = DatabaseCo.getConnection())  {
-            String query = "SELECT Email, Pseudo, Password, Role FROM user";
+            String query = "SELECT Email, Pseudo, Role FROM user WHERE Role != 'Admin'";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     System.out.println("Utilisateurs enregistrés :");
                     while (resultSet.next()) {
                         String email = resultSet.getString("Email");
                         String pseudo = resultSet.getString("Pseudo");
-                        String password = resultSet.getString("Password");
                         String role = resultSet.getString("Role");
                         System.out.println("Email : " + email);
                         System.out.println("Pseudo : " + pseudo);
-                        System.out.println("Password : " + password);
                         System.out.println("Role : " + role);
                         System.out.println(); // Ajoute une ligne vide pour la lisibilité
                     }

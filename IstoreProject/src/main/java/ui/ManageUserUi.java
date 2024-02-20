@@ -1,7 +1,7 @@
 package ui;
 
 import infrastructure.*;
-import usecase.EmailValidator;
+import usecase.*;
 
 import java.util.Scanner;
 public class ManageUserUi {

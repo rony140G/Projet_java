@@ -3,7 +3,7 @@ package ui;
 import java.util.Scanner;
 import usecase.EmailValidator;
 import infrastructure.WhiteListDao;
-import infrastructure.PasswordHashing;
+import usecase.PasswordHashing;
 import infrastructure.UserDAO;
 
 public class CreateAccount {

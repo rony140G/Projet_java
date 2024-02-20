@@ -1,4 +1,4 @@
-package infrastructure;
+package usecase;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordHashing {
