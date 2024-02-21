@@ -3,9 +3,7 @@ package ui;
 import infrastructure.ManageUserDao;
 import usecase.PasswordHashing;
 import infrastructure.LireUtilisateur;
-
 import java.util.Scanner;
-
 public class UserUI {
     Scanner scanner = new Scanner(System.in);
     int choix = -1;
@@ -13,12 +11,11 @@ public class UserUI {
     public void ShowUserMenu() {
         boolean running = true;
         while (running) {
-            System.out.println("Menu de gestion des utilisateurs:");
+            System.out.println("Menu des utilisateurs:");
             System.out.println("1. Lire les utilisateurs");
             System.out.println("2. Se Mettre à jour");
             System.out.println("3. Se Supprimer");
             System.out.println("0. Quitter");
-
             choix = scanner.nextInt();
             switch (choix) {
                 case 0:
@@ -32,7 +29,7 @@ public class UserUI {
                     break;
                 case 3:
                     supprimerUtilisateur();
-                    break;
+                    return;
                 default:
                     break;
             }
@@ -63,4 +60,3 @@ public class UserUI {
         manageUserDao.DeleteUser(email);
     }
 }
-

@@ -8,14 +8,12 @@ public class WhiteListDao {
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            // Si une ligne est retournée, cela signifie que l'e-mail est sur la liste blanche
             return resultSet.next();
         } catch (SQLException e) {
             System.out.println("Error checking whitelist: " + e.getMessage());
             return false;
         }
     }
-
     public void viewWhiteList() {
         String sql = "SELECT * FROM listeblanche";
         try (Connection connection = DatabaseCo.getConnection();
@@ -28,7 +26,6 @@ public class WhiteListDao {
             System.out.println("Error retrieving whitelist: " + e.getMessage());
         }
     }
-
     public void deleteFromWhiteList(String email) {
         String sql = "DELETE FROM listeblanche WHERE Email = ?";
         try (Connection connection = DatabaseCo.getConnection();
@@ -44,7 +41,6 @@ public class WhiteListDao {
             System.out.println("Error deleting email: " + e.getMessage());
         }
     }
-
     public void insertIntoWhiteList(String email) {
         String sql = "INSERT INTO listeblanche (Email) VALUES (?)";
         try (Connection connection = DatabaseCo.getConnection();

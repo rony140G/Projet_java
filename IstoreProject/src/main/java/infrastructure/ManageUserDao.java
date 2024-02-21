@@ -1,10 +1,6 @@
 package infrastructure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import java.sql.*;
 public class ManageUserDao {
     public void ViewUser() {
         String sql = "SELECT * FROM User";
@@ -19,7 +15,6 @@ public class ManageUserDao {
             System.out.println("Error retrieving whitelist: " + e.getMessage());
         }
     }
-
     public void DeleteUser(String email) {
         String sql = "DELETE FROM User WHERE Email = ?";
         try (Connection connection = DatabaseCo.getConnection();
@@ -27,15 +22,14 @@ public class ManageUserDao {
             statement.setString(1, email);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                System.out.println("Email deleted from whitelist successfully.");
+                System.out.println("User deleted  successfully.");
             } else {
-                System.out.println("Failed to delete email from whitelist.");
+                System.out.println("Failed to delete User.");
             }
         } catch (SQLException e) {
             System.out.println("Error deleting email: " + e.getMessage());
         }
     }
-
     public boolean VerifyUserExiste(String email) {
         String sql = "SELECT * FROM User WHERE Email = ?";
         try (Connection connection = DatabaseCo.getConnection();
@@ -48,7 +42,6 @@ public class ManageUserDao {
             return false;
         }
     }
-
     public void UpdateUser(String oldEmail,String newPassword, String newEmail, String newRole, String newPseudo) {
         String sql = "UPDATE User SET Email = ?,Password =?, role = ?, pseudo = ? WHERE Email = ?";
         try (Connection connection = DatabaseCo.getConnection();
@@ -58,7 +51,6 @@ public class ManageUserDao {
             statement.setString(3, newRole);
             statement.setString(4, newPseudo);
             statement.setString(5, oldEmail);
-
 
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
@@ -72,4 +64,3 @@ public class ManageUserDao {
         }
     }
 }
-

@@ -19,7 +19,7 @@ public class LireUtilisateur {
                         System.out.println("Email : " + email);
                         System.out.println("Pseudo : " + pseudo);
                         System.out.println("Role : " + role);
-                        System.out.println(); // Ajoute une ligne vide pour la lisibilité
+                        System.out.println();
                     }
                 }
             }

@@ -1,12 +1,9 @@
 package ui;
 
 import infrastructure.*;
-
 import java.util.Scanner;
-
 public class LoginUI {
     private final Scanner scanner;
-
     public LoginUI() {
         this.scanner = new Scanner(System.in);
     }
@@ -22,10 +19,7 @@ public class LoginUI {
         if (UserDAO.loginAdmin(email, password)) {
             new AdminMenuUI().show();
         } else if (UserDAO.login(email, password)){
-
-
             new UserUI().ShowUserMenu();
-
         } else {
             System.out.println("Invalid email or password. Please try again.");
         }

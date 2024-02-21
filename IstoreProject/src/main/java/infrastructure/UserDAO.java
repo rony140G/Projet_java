@@ -6,12 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 public class UserDAO {
-
     public static boolean insertUser(String email, String password) {
         String sql = "INSERT INTO User (Email, Password) VALUES (?, ?)";
-
         try (Connection connexion = DatabaseCo.getConnection();
              PreparedStatement statement = connexion.prepareStatement(sql)) {
 
@@ -39,19 +36,17 @@ public class UserDAO {
                 hashedPassword = resultSet.getString("password");
                 return BCrypt.checkpw(password, hashedPassword);
             } else {
-                return false; // Aucun utilisateur trouvé avec cet email
+                return false;
             }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion : " + e.getMessage());
             return false;
         }
     }
-
     public static boolean loginAdmin(String email, String password) {
         String sql = "SELECT password, role FROM User WHERE Email = ?";
         String hashedPassword;
         String role;
-
         try (Connection connexion = DatabaseCo.getConnection();
              PreparedStatement statement = connexion.prepareStatement(sql)) {
 
@@ -63,7 +58,7 @@ public class UserDAO {
                 role = resultSet.getString("role");
                 return BCrypt.checkpw(password, hashedPassword) && "Admin".equals(role);
             }
-            return false; // Aucun utilisateur trouvé avec cet email ou mauvais mot de passe ou non admin
+            return false;
         } catch (SQLException e) {
             System.out.println("Erreur lors de la connexion : " + e.getMessage());
             return false;

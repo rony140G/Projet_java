@@ -103,9 +103,7 @@ public class ManageStoreUi {
 
             }
         }
-        new ManageStoreDao().manageinventory();
     }
-
     private void DeletteToStock() {
         System.out.println("Dans quelle boutique voulez vous supprimer votre article");
         String Boutique = scanner.nextLine();
@@ -119,7 +117,6 @@ public class ManageStoreUi {
 
         ManageStoreDao.DelArticle(NomArticle, NombreArticle,ID_s);
     }
-
     private void ViewArticle() {
         System.out.println("Entrez le nom de la boutique dont vous voulez voire l'inventaire :");
         String Boutique = scanner.nextLine();
@@ -128,21 +125,29 @@ public class ManageStoreUi {
     }
 
     private void CreateArticle() {
-        System.out.println("Dans quelle boutique souhaiter vous ajouter un article ?");
+        System.out.println("Dans quelle boutique souhaitez-vous ajouter un article ?");
         String store = scanner.nextLine();
         int ID_Store = new ManageStoreDao().getInventoryId(store);
 
-        System.out.println("Entrez le nom de l'article ");
+        // Vérification si l'ID de la boutique est valide (supérieur à 0)
+        if (ID_Store <= 0) {
+            System.out.println("La boutique spécifiée n'existe pas. Veuillez réessayer.");
+            return;
+        }
+
+        System.out.println("Entrez le nom de l'article :");
         String Article = scanner.nextLine();
 
-        System.out.println("Entrez le prix de l'article");
-        int price =scanner.nextInt();
+        System.out.println("Entrez le prix de l'article :");
+        int price = scanner.nextInt();
 
         System.out.println("Stock ?");
         int stock = scanner.nextInt();
 
-        if(ManageStoreDao.InsertArticle(Article, price, stock, ID_Store)){
-            System.out.println("Article ajouté avec succés");
+        if (ManageStoreDao.InsertArticle(Article, price, stock, ID_Store)) {
+            System.out.println("Article ajouté avec succès");
+        } else {
+            System.out.println("Erreur lors de l'ajout de l'article. Veuillez réessayer.");
         }
     }
 
@@ -159,9 +164,5 @@ public class ManageStoreUi {
         int NombreArticle = scanner.nextInt();
 
         ManageStoreDao.addArticle(NomArticle, NombreArticle,ID_s);
-    }
-    public static void main(String[] args) {
-        ManageStoreUi manageStoreUi = new ManageStoreUi();
-        manageStoreUi.show();
     }
 }

@@ -1,12 +1,8 @@
 package ui;
 
 import java.util.Scanner;
-
 import static ui.Main.clearConsole;
-
-
-public class AdminMenuUI {
-
+public class  AdminMenuUI {
     public void show() {
         Scanner scanner = new Scanner(System.in);
         System.out.println( "*********************Admin Menu*******************" );
@@ -26,9 +22,10 @@ public class AdminMenuUI {
                     break;
                 case 3:
                     new ManageStoreUi().show();
+                    break;
                 case 9:
                     clearConsole();
-                    new Main();
+                    return;
                 default:
                     System.out.println("Invalid option. Please try again.");
                     break;

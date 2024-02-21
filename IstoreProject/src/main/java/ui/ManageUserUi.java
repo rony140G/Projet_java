@@ -84,8 +84,4 @@ public class ManageUserUi {
         }
 
     }
-    public static void main(String[] args) {
-        ManageUserUi manageUserUi = new ManageUserUi();
-        manageUserUi.show();
-    }
 }

@@ -8,24 +8,19 @@ import infrastructure.UserDAO;
 
 public class CreateAccount {
     private final Scanner scanner;
-
     public CreateAccount() {
         this.scanner = new Scanner(System.in);
     }
-
     public void show() {
         System.out.println("***********Create an account*********");
-
         String email = "";
         boolean isValidEmail = false;
         boolean whitelisted = false;
-
         while (!(isValidEmail && whitelisted)) {
             System.out.print("Email: ");
             email = scanner.next();
             isValidEmail = EmailValidator.isValidEmail(email);
             whitelisted = WhiteListDao.isWhitelisted(email);
-
             if (!isValidEmail) {
                 System.out.println("Invalid email format. Please enter a valid email address.");
             } else if (!whitelisted) {
@@ -33,13 +28,11 @@ public class CreateAccount {
                 return;
             }
         }
-
         System.out.print("Enter Password: ");
         String password = scanner.next();
         System.out.print("Enter password again: ");
         String password2 = scanner.next();
         String hashedPassword = PasswordHashing.hashPassword(password);
-
         if (password.equals(password2)) {
             if (UserDAO.insertUser(email, hashedPassword)) {
                 System.out.println("Successfully created account");

@@ -43,8 +43,6 @@ public class WhiteListUI {
             }
         }
     }
-
-
     private void deleteMailFromWhiteList() {
         System.out.print("Enter the email to delete: ");
         String email = scanner.next();
@@ -56,7 +54,6 @@ public class WhiteListUI {
             whiteListDao.deleteFromWhiteList(email);
         }
     }
-
     private void insertMailToWhiteList() {
         System.out.print("Enter the email to add: ");
         String email = scanner.next();
@@ -67,9 +64,5 @@ public class WhiteListUI {
         } else {
             whiteListDao.insertIntoWhiteList(email);
         }
-    }
-    public static void main(String[] args) {
-        WhiteListUI whiteListUI = new WhiteListUI(); // Create an instance of UserUI
-        whiteListUI.show(); // Call the ShowUserMenu method on the instance
     }
 }
