@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ManageStoreDao {
     //Parties sur l' insertion dans le store.
-    public static boolean insertStore(String name) {
+    public static boolean CreateStore(String name) {
         String insertInventorySQL = "INSERT INTO inventory (inventory_Name, store_ID) VALUES (?, ?)";
         String insertStoreSQL = "INSERT INTO store (store_Name) VALUES (?)";
 
@@ -35,13 +35,9 @@ public class ManageStoreDao {
 
             return rowsInserted > 0;
         } catch (SQLException e) {
-            System.out.println("Error inserting store: " + e.getMessage());
+            System.out.println("Erreur lors de la création du store " + e.getMessage());
             return false;
         }
-    }
-
-    public static void VerifyIfIsInStore() {
-
     }
 
     public void ViewStore() {
@@ -53,10 +49,10 @@ public class ManageStoreDao {
                 System.out.println("Id : " + resultSet.getString("store_ID") + " ;Nom de la boutique : " + resultSet.getString("store_Name"));
             }
         } catch (SQLException e) {
-            System.out.println("Error retrieving store: " + e.getMessage());
+            System.out.println("Erreur lors de la recherche du store: " + e.getMessage());
         }
     }
-    public static boolean deleteStore(String name) {
+    public static boolean DeleteStore(String name) {
         String sql = "DELETE FROM store WHERE store_Name = ?";
 
         try (Connection connection = DatabaseCo.getConnection();
@@ -67,18 +63,17 @@ public class ManageStoreDao {
             int rowsDeleted = statement.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            System.out.println("Error deleting store: " + e.getMessage());
+            System.out.println("Erreur lors de la suppression du store: " + e.getMessage());
             return false;
         }
     }
 
     // Parties sur les articles
-    public static boolean deleteArticles(String articleName, int articleQuantity, int inventoryID) {
+    public static boolean DeleteArticlesFromStore(String articleName, int articleQuantity, int inventoryID) {
         if (articleQuantity <= 0) {
-            System.out.println("Invalid article quantity.");
+            System.out.println("Quantité invalide.");
             return false;
         }
-
         String selectSql = "SELECT stock_disponible FROM article WHERE Nom_article = ? AND Inventory_ID = ?";
         String updateSql = "UPDATE article SET stock_disponible = stock_disponible - ? WHERE Nom_article = ? AND Inventory_ID = ?";
         try (Connection connection = DatabaseCo.getConnection();
@@ -91,24 +86,23 @@ public class ManageStoreDao {
             if (resultSet.next()) {
                 int currentStock = resultSet.getInt("stock_disponible");
                 if (currentStock < articleQuantity) {
-                    System.out.println("Not enough stock available for deletion.");
+                    System.out.println("Pas assez d'article pour cette suppresion.");
                     return false;
                 }
             } else {
-                System.out.println("Article not found in inventory.");
+                System.out.println("Article non trouvé dans l'inventaire.");
                 return false;
             }
-
             // Mettre à jour le stock
             updateStatement.setInt(1, articleQuantity);
             updateStatement.setString(2, articleName);
             updateStatement.setInt(3, inventoryID);
             int rowsUpdated = updateStatement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Number of articles deleted successfully.");
+                System.out.println("Article supprimer avec succés.");
                 return true;
             } else {
-                System.out.println("Failed to delete articles.");
+                System.out.println("Echec lors de la suppression.");
                 return false;
             }
         } catch (SQLException e) {
@@ -130,7 +124,7 @@ public class ManageStoreDao {
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            System.out.println("Error inserting user: " + e.getMessage());
+            System.out.println("Erreur lors de l'insertion: " + e.getMessage());
             return false;
         }
     }
@@ -164,8 +158,8 @@ public class ManageStoreDao {
                 if (resultSet.next()) {
                     return resultSet.getInt("Inventory_ID");
                 } else {
-                    System.out.println("Inventory not found for store: " + storeName);
-                    return -1; // ou un autre valeur pour indiquer une absence d'inventaire
+                    System.out.println("Inventaire non trouvé pour ce store: " + storeName);
+                    return -1;
                 }
             }
         } catch (SQLException e) {
@@ -173,7 +167,7 @@ public class ManageStoreDao {
             return -1;
         }
     }
-    public int getUserID(String Mail) {
+    public static int getUserID(String Mail) {
         int id = 0; // Valeur par défaut si aucun utilisateur n'est trouvé
 
         String sql = "SELECT id FROM user WHERE Email = ?";
@@ -215,9 +209,9 @@ public class ManageStoreDao {
             statement.setInt(3, inventoryID);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Number of articles added successfully.");
+                System.out.println("Article ajouté avec succèes.");
             } else {
-                System.out.println("Failed to add articles.");
+                System.out.println("Echec lors de l'ajout.");
             }
         } catch (SQLException e) {
             System.out.println("Error updating articles: " + e.getMessage());
@@ -235,7 +229,7 @@ public class ManageStoreDao {
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            System.out.println("Error adding employee to store: " + e.getMessage());
+            System.out.println("Erreur lors de l'ajjout de employés dans le store: " + e.getMessage());
             return false;
         }
     }
@@ -247,7 +241,7 @@ public class ManageStoreDao {
             statement.setInt(1, Id_store);
             ResultSet resultSet = statement.executeQuery();
 
-            System.out.println("Employees with access to store " + Id_store + ":");
+            System.out.println("Employés qui ont accès au store " + Id_store + ":");
             while (resultSet.next()) {
                 int userId = resultSet.getInt("User_ID");
                 String userEmail = getEmailFromUserID(userId); // Appel à la méthode pour obtenir l'e-mail
@@ -275,4 +269,22 @@ public class ManageStoreDao {
         }
     }
 
+    public static void viewMyCoWorkers(int userId) {
+        String sql = "SELECT * FROM Acces_Magasin WHERE User_ID = (SELECT store_ID FROM Acces_Magasin WHERE User_ID = ?)";
+
+        try (Connection connection = DatabaseCo.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+
+            System.out.println("My Co-Workers:");
+            while (resultSet.next()) {
+                int coWorkerId = resultSet.getInt("User_ID");
+                // Vous pouvez récupérer d'autres informations sur le collègue en fonction de vos besoins
+                System.out.println("Co-Worker ID: " + coWorkerId);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error viewing co-workers: " + e.getMessage());
+        }
+    }
 }

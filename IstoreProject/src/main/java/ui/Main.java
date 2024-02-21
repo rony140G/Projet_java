@@ -10,11 +10,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choix = -1;
         while (choix != 0) {
-            System.out.println("********************* iStore *******************");
-            System.out.println("Welcome to Istore Market !");
-            System.out.println("To log in, press 1");
-            System.out.println("To create an account, press 2");
-            System.out.println("To quit, press 0");
+            System.out.println("********************************* BOUTIQUE I-STOR *********************************");
+            System.out.println("BIENVENUE DANS LA BOUTIQUE ISTORE !");
+            System.out.println("1. POUR VOUS CONNECTER");
+            System.out.println("2. POUR CREER UN COMPTE");
+            System.out.println("0. POUR QUITTER");
             choix = scanner.nextInt();
             switch (choix) {
                 case 0:
@@ -27,7 +27,7 @@ public class Main {
                     new CreateAccount().show();
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("OPTION INVALIDE. ESSAYEZ ENCORE.");
                     break;
             }
         }

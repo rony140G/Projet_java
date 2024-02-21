@@ -3,6 +3,7 @@ package ui;
 import infrastructure.*;
 import usecase.EmailValidator;
 import java.util.Scanner;
+
 public class WhiteListUI {
     private final Scanner scanner;
     private final WhiteListDao whiteListDao;
@@ -16,11 +17,11 @@ public class WhiteListUI {
         boolean running = true;
 
         while (running) {
-            System.out.println("********************* WHITELIST E-MAILS *******************");
-            System.out.println("Back to admin menu, press 0");
-            System.out.println("Add e-mails to whitelist, press 1");
-            System.out.println("Delete e-mails from whitelist, press 2");
-            System.out.println("View whitelist, press 3");
+            System.out.println("********************* LISTE BLANCHE DES COURRIELS *******************");
+            System.out.println("Pour revenir au menu administrateur, appuyez sur 0");
+            System.out.println("Pour ajouter des e-mails à la liste blanche, appuyez sur 1");
+            System.out.println("Pour supprimer des e-mails de la liste blanche, appuyez sur 2");
+            System.out.println("Pour voir la liste blanche, appuyez sur 3");
 
             int choice = scanner.nextInt();
 
@@ -38,29 +39,31 @@ public class WhiteListUI {
                     whiteListDao.viewWhiteList();
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Option invalide. Veuillez réessayer.");
                     break;
             }
         }
     }
+
     private void deleteMailFromWhiteList() {
-        System.out.print("Enter the email to delete: ");
+        System.out.print("Entrez l'email à supprimer : ");
         String email = scanner.next();
         boolean isValidEmail = EmailValidator.isValidEmail(email);
 
         if (!isValidEmail) {
-            System.out.println("Invalid email format. Please enter a valid email address.");
+            System.out.println("Format d'email invalide. Veuillez entrer une adresse email valide.");
         } else {
             whiteListDao.deleteFromWhiteList(email);
         }
     }
+
     private void insertMailToWhiteList() {
-        System.out.print("Enter the email to add: ");
+        System.out.print("Entrez l'email à ajouter : ");
         String email = scanner.next();
         boolean isValidEmail = EmailValidator.isValidEmail(email);
 
         if (!isValidEmail) {
-            System.out.println("Invalid email format. Please enter a valid email address.");
+            System.out.println("Format d'email invalide. Veuillez entrer une adresse email valide.");
         } else {
             whiteListDao.insertIntoWhiteList(email);
         }

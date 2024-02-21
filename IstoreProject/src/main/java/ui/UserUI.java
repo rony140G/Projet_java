@@ -1,9 +1,8 @@
 package ui;
 
-import infrastructure.ManageStoreDao;
+
 import infrastructure.ManageUserDao;
 import usecase.PasswordHashing;
-import infrastructure.LireUtilisateur;
 import java.util.Scanner;
 public class UserUI {
     Scanner scanner = new Scanner(System.in);
@@ -24,7 +23,7 @@ public class UserUI {
                     running = false;
                     break;
                 case 1:
-                    new LireUtilisateur().lireUtilisateur();
+                    new ManageUserDao().lireUtilisateur();
                     break;
                 case 2:
                     mettreAJourUtilisateur();
@@ -33,7 +32,8 @@ public class UserUI {
                     supprimerUtilisateur();
                     return;
                 case 4:
-                    ManageStoreDao.VerifyIfIsInStore();
+                    GestionDuMagasin();
+                    break;
                 default:
                     System.out.println("ERREUR DE SAISIE ...");
                     break;
@@ -41,6 +41,38 @@ public class UserUI {
         }
 
     }
+
+    private void GestionDuMagasin() {
+        Scanner scanner = new Scanner(System.in);
+        int choix = -1;
+
+        while (choix != 0) {
+            System.out.println("********************* Gestion du Magasin *******************");
+            System.out.println("1. Gérer le stock du magasin");
+            System.out.println("2. Voir les employés");
+            System.out.println("0. Retour au menu précédent");
+            System.out.print("Votre choix : ");
+            choix = scanner.nextInt();
+
+            switch (choix) {
+                case 1:
+                    // Appeler la méthode pour gérer le stock du magasin
+                    // Exemple : gestionStockMagasin();
+                    break;
+                case 2:
+                    // pour voire mes co emplyées
+                    break;
+                case 0:
+                    System.out.println("Retour au menu précédent...");
+                    break;
+                default:
+                    System.out.println("Choix invalide. Veuillez réessayer.");
+                    break;
+            }
+        }
+    }
+
+
     private void mettreAJourUtilisateur() {
         System.out.println("Entrez votre email actuel :");
         String oldEmail = scanner.next();

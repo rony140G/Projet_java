@@ -18,7 +18,7 @@ public class ManageStoreUi {
             System.out.println("to Create new store, press 1 ");
             System.out.println("to view store, press 2");
             System.out.println("to delete store , press 3");
-            System.out.println("to manage inventory store , press 4");
+            System.out.println("to manage inventory, press 4");
             int choice = scanner.nextInt();
 
             scanner.nextLine();
@@ -49,7 +49,7 @@ public class ManageStoreUi {
     private void DeleteStoreUi() {
         System.out.println("Enter the name of the store ");
         String storeName = scanner.nextLine();
-        if (deleteStore(storeName)){
+        if (DeleteStore(storeName)){
             System.out.println("Store deleted !!");
         }else {
             System.out.println("store don't deleted !");
@@ -58,10 +58,10 @@ public class ManageStoreUi {
 
 
     public void CreateStoreUi(){
-        System.out.println("Enter the name of the store to delete ");
+        System.out.println("Enter the name of the store to create ");
         String storeName = scanner.nextLine();
 
-        if (insertStore(storeName)){
+        if (CreateStore(storeName)){
             System.out.println("Store created !!");
         }else {
             System.out.println("store don't created !");
@@ -77,7 +77,7 @@ public class ManageStoreUi {
             System.out.println("to view  article, press 2");
             System.out.println("to add article in inventory , press 3");
             System.out.println("to withdrawn article in inventory , press 4");
-            System.out.println("to manage employe store , press 5");
+            System.out.println("to manage employe inventory , press 5");
             int choice = scanner.nextInt();
 
             scanner.nextLine();
@@ -151,7 +151,7 @@ public class ManageStoreUi {
 
         System.out.println("Email de l'employe");
         String Employee = scanner.nextLine();
-        int ID_employee = new ManageStoreDao().getUserID(Employee);
+        int ID_employee = getUserID(Employee);
 
         if(ManageStoreDao.deleteEmployeToStore(ID_employee,ID_Store)){
             System.out.println("Employé supprimé du store avec succes");
@@ -167,7 +167,7 @@ public class ManageStoreUi {
 
         System.out.println("Email de l'employe");
         String Employee = scanner.nextLine();
-        int ID_employee = new ManageStoreDao().getUserID(Employee);
+        int ID_employee = getUserID(Employee);
 
 
         if (ManageStoreDao.addEmployeeToStore(ID_employee,ID_Store)){
@@ -188,7 +188,7 @@ public class ManageStoreUi {
         System.out.println("Nombre à supprimeé");
         int NombreArticle = scanner.nextInt();
 
-        ManageStoreDao.deleteArticles(NomArticle, NombreArticle,ID_s);
+        ManageStoreDao.DeleteArticlesFromStore(NomArticle, NombreArticle,ID_s);
 
     }
     private void ViewArticle() {

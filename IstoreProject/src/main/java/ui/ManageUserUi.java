@@ -4,6 +4,7 @@ import infrastructure.*;
 import usecase.*;
 
 import java.util.Scanner;
+
 public class ManageUserUi {
     private final Scanner scanner;
     private final infrastructure.ManageUserDao ManageUserDao;
@@ -12,17 +13,18 @@ public class ManageUserUi {
         this.scanner = new Scanner(System.in);
         this.ManageUserDao = new ManageUserDao();
     }
+
     public void show() {
         boolean running = true;
         while(running) {
-            System.out.println("*********************Manage user tools*******************");
+            System.out.println("********************* Outils de gestion des utilisateurs *******************");
 
             while (running) {
-                System.out.println("Back press 0");
-                System.out.println("To create user, press 1");
-                System.out.println("To View all user, press 2");
-                System.out.println("To delete user  press 3");
-                System.out.println("To update 4");
+                System.out.println("Pour revenir, appuyez sur 0");
+                System.out.println("Pour créer un utilisateur, appuyez sur 1");
+                System.out.println("Pour voir tous les utilisateurs, appuyez sur 2");
+                System.out.println("Pour supprimer un utilisateur, appuyez sur 3");
+                System.out.println("Pour mettre à jour un utilisateur, appuyez sur 4");
 
                 int choix = scanner.nextInt();
 
@@ -43,45 +45,46 @@ public class ManageUserUi {
                         updateUser();
                         break;
                     default:
-                        System.out.println("Invalid option. Please try again.");
+                        System.out.println("Option invalide. Veuillez réessayer.");
                         break;
                 }
             }
         }
     }
+
     private void deleteUser() {
-        System.out.print("Enter the email to delete: ");
+        System.out.print("Entrez l'email à supprimer : ");
         String email = scanner.next();
         boolean isValidEmail = EmailValidator.isValidEmail(email);
 
         if (!isValidEmail) {
-            System.out.println("Invalid email format. Please enter a valid email address.");
+            System.out.println("Format d'email invalide. Veuillez entrer une adresse email valide.");
         } else {
             ManageUserDao.DeleteUser(email);
         }
     }
+
     private void updateUser(){
-        System.out.println("Enter the old email: ");
+        System.out.println("Entrez l'ancien email : ");
         String oldEmail = scanner.next();
         boolean UserExiste = ManageUserDao.VerifyUserExiste(oldEmail);
         if (!UserExiste){
-            System.out.println("Cet utilisateur ne fait pas parti de la base de donnée");
-        }else{
-            System.out.println("Enter New Mail: ");
+            System.out.println("Cet utilisateur ne fait pas partie de la base de données");
+        } else {
+            System.out.println("Entrez le nouveau courriel : ");
             String newEmail = scanner.next();
 
-            System.out.println("Enter New Password: ");
+            System.out.println("Entrez le nouveau mot de passe : ");
             String Password = scanner.next();
             String newPassword = PasswordHashing.hashPassword(Password);
 
-            System.out.println("Enter New Role: ");
+            System.out.println("Entrez le nouveau rôle : ");
             String newRole = scanner.next();
 
-            System.out.println("Enter New Pseudo: ");
+            System.out.println("Entrez le nouveau pseudo : ");
             String newPseudo = scanner.next();
 
             ManageUserDao.UpdateUser(oldEmail,newPassword, newEmail, newRole,newPseudo);
         }
-
     }
 }
