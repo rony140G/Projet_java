@@ -18,7 +18,7 @@ public class ManageStoreUi {
             System.out.println("to Create new store, press 1 ");
             System.out.println("to view store, press 2");
             System.out.println("to delete store , press 3");
-            System.out.println("to manage store inventory store , press 4");
+            System.out.println("to manage inventory store , press 4");
             int choice = scanner.nextInt();
 
             scanner.nextLine();
@@ -77,6 +77,7 @@ public class ManageStoreUi {
             System.out.println("to view  article, press 2");
             System.out.println("to add article in inventory , press 3");
             System.out.println("to withdrawn article in inventory , press 4");
+            System.out.println("to manage employe store , press 5");
             int choice = scanner.nextInt();
 
             scanner.nextLine();
@@ -97,13 +98,85 @@ public class ManageStoreUi {
                 case 4:
                     DeletteToStock();
                     break;
+                case 5:
+                    EmployeStoreUi();
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
                     break;
-
             }
         }
     }
+
+    private void EmployeStoreUi() {
+        boolean choix = true ;
+        while(choix){
+            System.out.println("To back press 0");
+            System.out.println("To add employe to store, press 1 ");
+            System.out.println("To delete employe to store, press 2");
+            System.out.println("To view employe to store , press 3");
+            int cas = scanner.nextInt();
+            scanner.nextLine();
+            switch (cas){
+                case 0:
+                    choix = false;
+                    break;
+                case 1:
+                    addEmployeToStore();
+                    break;
+                case 2:
+                    delEmployeToStore();
+                    break;
+                case 3:
+                    viewEmployeStore();
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
+
+
+    private void viewEmployeStore() {
+        System.out.println("De quelle boutique souhaitez vous voire les employées ?");
+        String Boutique = scanner.nextLine();
+        int ID_store = new ManageStoreDao().getInventoryId(Boutique);
+        ManageStoreDao.viewEmployeeStore(ID_store);
+    }
+    private void delEmployeToStore() {
+        System.out.println("Dans quelle boutique voulez vous supprimer un employé");
+        String Boutique = scanner.nextLine();
+        int ID_Store = new ManageStoreDao().getInventoryId(Boutique);
+
+        System.out.println("Email de l'employe");
+        String Employee = scanner.nextLine();
+        int ID_employee = new ManageStoreDao().getUserID(Employee);
+
+        if(ManageStoreDao.deleteEmployeToStore(ID_employee,ID_Store)){
+            System.out.println("Employé supprimé du store avec succes");
+        }else  {
+            System.out.println("echec lors de la suppression");
+        }
+    }
+
+    private void addEmployeToStore() {
+        System.out.println("Dans quelle boutique voulez vous ajouter votre employe");
+        String Boutique = scanner.nextLine();
+        int ID_Store = new ManageStoreDao().getInventoryId(Boutique);
+
+        System.out.println("Email de l'employe");
+        String Employee = scanner.nextLine();
+        int ID_employee = new ManageStoreDao().getUserID(Employee);
+
+
+        if (ManageStoreDao.addEmployeeToStore(ID_employee,ID_Store)){
+            System.out.println("Employé ajouté a la boutique avec succés");
+        }else {
+            System.out.println("Employée non ajouté");
+        }
+    }
+
     private void DeletteToStock() {
         System.out.println("Dans quelle boutique voulez vous supprimer votre article");
         String Boutique = scanner.nextLine();
@@ -115,7 +188,8 @@ public class ManageStoreUi {
         System.out.println("Nombre à supprimeé");
         int NombreArticle = scanner.nextInt();
 
-        ManageStoreDao.DelArticle(NomArticle, NombreArticle,ID_s);
+        ManageStoreDao.deleteArticles(NomArticle, NombreArticle,ID_s);
+
     }
     private void ViewArticle() {
         System.out.println("Entrez le nom de la boutique dont vous voulez voire l'inventaire :");
@@ -162,7 +236,15 @@ public class ManageStoreUi {
 
         System.out.println("Nombre à ajouter");
         int NombreArticle = scanner.nextInt();
-
-        ManageStoreDao.addArticle(NomArticle, NombreArticle,ID_s);
+        if (NombreArticle <= 0){
+            System.out.println("La quantité à ajouter doit être supérieur à zéro");
+            InventoryMenu();
+        } else {
+            ManageStoreDao.addArticle(NomArticle, NombreArticle,ID_s);
+        }
+    }
+    public static void main(String[] args){
+        ManageStoreUi manageStoreUi = new ManageStoreUi();
+        manageStoreUi.show();
     }
 }

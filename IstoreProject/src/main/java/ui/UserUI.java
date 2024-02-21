@@ -1,5 +1,6 @@
 package ui;
 
+import infrastructure.ManageStoreDao;
 import infrastructure.ManageUserDao;
 import usecase.PasswordHashing;
 import infrastructure.LireUtilisateur;
@@ -15,6 +16,7 @@ public class UserUI {
             System.out.println("1. Lire les utilisateurs");
             System.out.println("2. Se Mettre à jour");
             System.out.println("3. Se Supprimer");
+            System.out.println("4. Gérer le stock du magasin");
             System.out.println("0. Quitter");
             choix = scanner.nextInt();
             switch (choix) {
@@ -30,7 +32,10 @@ public class UserUI {
                 case 3:
                     supprimerUtilisateur();
                     return;
+                case 4:
+                    ManageStoreDao.VerifyIfIsInStore();
                 default:
+                    System.out.println("ERREUR DE SAISIE ...");
                     break;
             }
         }
